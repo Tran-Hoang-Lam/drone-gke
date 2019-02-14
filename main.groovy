@@ -2,6 +2,10 @@ import groovy.json.JsonSlurper
 
 static main(args) {
     def serviceAccountFile = 'service_account.json'
+
+    println "pwd".execute()
+    println "ls".execute()
+
     GroovyShell shell = new GroovyShell()
     def plugin = shell.parse(new File('plugin.groovy'))
     def shellHelper = shell.parse(new File('shell.groovy'))

@@ -1,0 +1,20 @@
+---
+kind: pipeline
+name: develop
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: docker_plugin
+  image: plugins/docker
+  pull: always
+  settings:
+    password:
+      from_secret: docker_password
+    repo: lamth2/drone-gke
+    username:
+      from_secret: docker_username
+
+...
