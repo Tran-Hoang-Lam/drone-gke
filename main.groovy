@@ -3,12 +3,9 @@ import groovy.json.JsonSlurper
 static main(args) {
     def serviceAccountFile = 'service_account.json'
 
-    "pwd".execute()
-    "ls".execute()
-
     GroovyShell shell = new GroovyShell()
-    def plugin = shell.parse(new File('plugin.groovy'))
-    def shellHelper = shell.parse(new File('shell.groovy'))
+    def plugin = shell.parse(new File('./plugin.groovy'))
+    def shellHelper = shell.parse(new File('./shell.groovy'))
 
     println "Starting decode gce token"
 
