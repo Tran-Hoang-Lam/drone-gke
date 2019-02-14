@@ -1,6 +1,6 @@
-Script getShellScript() {
+static Script getShellScript() {
     GroovyShell shell = new GroovyShell()
-    return shell.parse(new File('shell.groovy'))
+    return shell.parse(new File('/var/drone-gke/shell.groovy'))
 }
 
 def authorizeToGke(String serviceAccountFile, String email, String projectId) {
