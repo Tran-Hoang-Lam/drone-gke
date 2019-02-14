@@ -1,7 +1,9 @@
 def executeCommand(String command) {
     println "Running command $command"
 
-    command.execute()
+    def result = command.execute()
+
+    println result.text
 }
 
 def getEnvironmentVaribale() {
