@@ -1,0 +1,19 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: k8s-dev
+  namespace: dev
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: k8s-dev
+        k8s-app: k8s-dev
+    spec:
+      containers:
+        - image: repo/image:${TAG}
+          name: k8s-dev
+          ports:
+            - containerPort: 8080

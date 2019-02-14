@@ -43,4 +43,10 @@ RUN apk --no-cache add \
 
 RUN gcloud components update kubectl
 
-USER groovy
+RUN mkdir -p /var/drone-gke
+
+ADD . /var/drone-gke
+
+WORKDIR /var/drone-gke
+
+CMD groovy /var/drone-gke/main.groovy
