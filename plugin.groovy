@@ -36,3 +36,24 @@ def applyTemplate(String path) {
 
     getShellScript().executeCommand(applyCommand)
 }
+
+def generateDockerConfigAndSaveToEnv(String serviceAccount, HashMap environmentParam) {
+    println "Generate docker config"
+
+    def serviceAccountJson = new String(serviceAccount.decodeBase64())
+    def registryHost = environmentParam.REGISTRY_HOST ?: 'asia.gcr.io'
+
+    def auth = "_json_key:$serviceAccountJson".bytes.encodeBase64().toString()
+
+    def auths = """
+        {
+            "auths": {
+              "$registryHost": {
+                 "auth": "$auth"
+              }
+            }
+        }
+    """.trim().stripIndent().bytes.encodeBase64().toString()
+
+    environmentParam.DOCKER_CONFIG = auths
+}

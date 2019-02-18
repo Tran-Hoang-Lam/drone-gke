@@ -6,10 +6,11 @@ static main(args) {
     GroovyShell shell = new GroovyShell()
     def plugin = shell.parse(new File('/var/drone-gke/plugin.groovy'))
     def shellHelper = shell.parse(new File('/var/drone-gke/shell.groovy'))
+    def gceToken = System.getenv("PLUGIN_GCE_TOKEN")
 
     println "Starting decode gce token"
 
-    def gceTokenJson = new String(System.getenv("PLUGIN_GCE_TOKEN").decodeBase64())
+    def gceTokenJson = new String(gceToken.decodeBase64())
 
     def jsonSlurper = new JsonSlurper()
 
@@ -26,11 +27,13 @@ static main(args) {
     plugin.authorizeToGke(serviceAccountFile, gceTokenValue.client_email, gceTokenValue.project_id)
     plugin.setCluster(environmentParam.CLUSTER, environmentParam.ZONE)
 
+    if (environmentParam.GENERATE_DOCKER_CONFIG) {
+        plugin.generateDockerConfigAndSaveToEnv(gceToken, environmentParam)
+    }
+
     String templatePath = environmentParam.TEMPLATE
 
     new File(templatePath).write(plugin.processTemplate(templatePath, environmentParam))
 
     plugin.applyTemplate(templatePath)
 }
-
-
